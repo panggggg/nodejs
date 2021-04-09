@@ -10,3 +10,4 @@ console.log(path.parse(__filename)) //return เป็น obj. ภายใน o
 
 console.log(path.join(__dirname, 'utils.js')) // join path หลายๆตัว 
 
+
