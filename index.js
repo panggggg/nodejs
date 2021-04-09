@@ -15,7 +15,7 @@ sayHello(); //การเรียกใช้ฟังก์ชัน
 const vat7 = calculateVat(100, 7);
 console.log(vat7)
 console.log(__filename)
-console.log(__dirname)
+
 
 // (function (exports, require, module, __filename, __dirname) {
 //     const { sayHello, calculateVat } = require('./utils'); //การ import modules
