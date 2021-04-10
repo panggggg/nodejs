@@ -10,6 +10,6 @@ function getPage(page) {
 http.createServer((req, res) => {
     res.setHeader('Content-Type', 'text/html'); //ส่ง html กลับไปยัง browser
     res.writeHead(200); //statusCode
-    res.write(getPage('index.html'));
+    res.write(getPage('index.html')); //page = index.html ส่งพารามิเตอร์ไปยังฟังก์ชัน getPage
     res.end();
 }).listen(3000) //create server port 3000
