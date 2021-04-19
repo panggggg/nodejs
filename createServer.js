@@ -1,13 +1,14 @@
 const http = require('http');
 const path = require('path');
 const fs = require('fs'); //ใช้ในการอ่านไฟล์
+const moment = require('moment');
 
 function getPage(page) {
     const filePath = path.join(__dirname, page); //สร้างตัวแปร
     return fs.readFileSync(filePath);
 }
 
-http.createServer((req, res) => {
+function handleFiles(req, res) {
     const fileType = path.extname(req.url) || '.html'; //ถ้าไฟล์นี้ไม่มีนามสกุล จะใส่เป็น .html ให้
 
     if (fileType === '.html') { //check นามสกุลว่าเท่ากับ html ไหม
@@ -32,7 +33,49 @@ http.createServer((req, res) => {
         res.writeHead(404);
         res.end();
     }
+}
 
+function getData(url) {
+    let data;
+    if (url === '/apis/users') {
+        data = [{
+            name: 'Pawornwan'
+        },
+        {
+            name: 'Pang'
+        }];
 
+    } else if (url === '/apis/posts') {
+        data =
+            [{
+                title: 'A',
+                publishedDate: moment().startOf('day').fromNow() //publishedDate เป็นการจำลองเวลา
+            },
+            {
+                title: 'B',
+                publishedDate: moment().set('month', 1).startOf('day').fromNow()
+            }]
+    }
+    return data;
+}
+
+function handleAPIs(req, res) {
+    let data = getData(req.url);
+
+    if (data) {
+        res.setHeader('Content-Type', 'application/json');
+        res.write(JSON.stringify(data)); //แปลง data เป็น json
+    } else {
+        res.writeHead(404);
+    }
+    res.end();
+}
+
+http.createServer((req, res) => {
+    if (req.url.startsWith('/apis/')) {
+        handleAPIs(req, res);
+    } else {
+        handleFiles(req, res);
+    }
 }).listen(3000) //create server port 3000
 
